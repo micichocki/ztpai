@@ -1,0 +1,103 @@
+body{
+    background-color: #DCFFE6;
+}
+
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-text{
+    width: 56rem;
+    height: 2rem;
+    text-align: center;
+    font-family: Jomhuria, sans-serif;
+    font-size: 6rem;
+    margin-top: 3.5rem;
+}
+
+.website-name-main-text{
+    color: #1EC31B;
+}
+
+.welcome-sub-text{
+    width: 40rem;
+    height: 10rem;
+    text-align: center;
+    font-family: Jomhuria, sans-serif;
+    font-size: 4rem;
+    line-height: normal;
+    margin-top:6rem;
+    margin-bottom: 0;
+
+}
+.illustration-author{
+    font-family: Jomhuria, sans-serif;
+    color: black;
+    text-decoration: none;
+    margin-top:4rem;
+}
+
+#submit-button {
+    background: #14B211;
+    border:0;
+    width:6rem;
+    height: 3rem;
+    text-align: center;
+    vertical-align: central;
+    font-size: 1rem;
+}
+
+object{
+    width: 400px;
+    height: 400px;
+    position: fixed;
+    bottom: -10vh;
+}
+
+
+@media(max-width:1024px){
+    .welcome-text{
+        width: 36rem;
+        margin-bottom: 4rem;
+        line-height: 5rem;
+    }
+
+    object{
+        width: 20rem;
+        height: 20rem;
+        margin-bottom: 1rem;
+
+    }
+    .illustration-author{
+        margin-top:0;
+    }
+}
+
+@media(max-width:768px){
+    .welcome-text{
+        width:20rem;
+        font-size:5rem;
+        margin-top:4rem;
+        margin-bottom:6rem;
+        line-height: 3.5rem;
+
+    }
+    .welcome-sub-text{
+        display: none;
+    }
+
+    .object-container{
+        display: flex;
+        justify-content: center;
+    }
+
+    object{
+        width: 20rem;
+        height: 20rem;
+        bottom: 0;
+    }
+}

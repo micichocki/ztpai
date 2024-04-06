@@ -1,0 +1,274 @@
+body{
+    height: 100vh;
+    background-color:#DCFFE6 ;
+    overflow:hidden;
+}
+
+main{
+    height: 100vh;
+}
+.messages{
+    display:flex;
+    justify-content: center;
+    font-family: Jomhuria,'sans-serif';
+    font-size:2rem;
+    margin-left:1rem;
+    margin-bottom:1.6rem;
+    height:1px;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.main-content{
+    margin-bottom: 6rem;
+}
+
+.object-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+}
+
+object{
+    width: 300px;
+    height: 300px;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.welcome-text{
+    width: 28.5625rem;
+    text-align: center;
+    font-family: "Jomhuria", sans-serif;
+    letter-spacing: 0.07rem;
+    font-size: 4rem;
+    margin-bottom:1rem;
+}
+
+.welcome-sub-text{
+    text-align: center;
+    font-family: "Jomhuria", sans-serif;
+    font-size: 3rem;
+    margin-top: 0;
+    width: 38rem;
+}
+.redirect-link{
+    text-align: center;
+    font-family: "Jomhuria", sans-serif;
+    font-size: 3rem;
+    font-style: normal;
+    line-height: normal;
+    margin-top: 0;
+    width: 38rem;
+}
+
+.form-container{
+    background-color: #A5FFBE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-bottom: 8rem;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    border-radius: 5%;
+    width: 50%;
+    border:3px solid #000000;
+}
+
+label {
+    color: rgba(0, 0, 0, 0.35);
+    font-family: "Jomhuria", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    display: block;
+    margin-top:0.6rem;
+}
+
+.btn{
+    background-color: #1EC31B;
+    border:0;
+}
+
+input {
+    padding: 10px;
+    border: 2px solid #1EC31B;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    display: block;
+}
+.remember-me-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap:1.1rem;
+    margin-top: 0.8rem;
+}
+
+.remember-me{
+    font-family: Jomhuria, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+    color: #000000;
+}
+
+
+
+.submit-button-container {
+    display:flex;
+    justify-content: center;
+    margin-bottom:2rem;
+}
+
+
+.info-container{
+    display: none;
+}
+
+.click-here{
+    text-decoration: none;
+    color: #1EC31B;
+    font-family: "Jomhuria", sans-serif;
+    font-size: 2.7rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.btn{
+    width: 6rem;
+    height: 3rem;
+    font-size: 1.2rem;
+}
+
+@media(max-width:1024px){
+    .welcome-text{
+        font-size: 4rem;
+        width: 27rem;
+    }
+
+    .welcome-sub-text{
+        display: none;
+    }
+
+    .form-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-group{
+        width: 80%;
+    }
+
+    .messages{
+        margin-bottom: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0;
+        background-color: #A5FFBE;
+    }
+
+    .main-content {
+        display: none;
+    }
+
+    .form-group{
+        width: 100%;
+    }
+
+
+    .messages{
+        margin-bottom: 1.7rem;
+    }
+
+    .form-container{
+        height: 30%;
+    }
+
+
+    .info-container{
+        display: block;
+        margin-top:0.5rem;
+        width: 20rem;
+        height: 6rem;
+        background: #1EC31B;
+        gap: 0.25rem;
+        flex-shrink: 0;
+        border-radius: 3.125rem;
+        box-shadow: 0px 4px 8px 0px rgba(101, 92, 128, 0.30);
+        color: #FFF;
+        font-family: "Jomhuria", sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        cursor: pointer;
+        position: relative;
+    }
+    .redirect-link{
+        margin:0;
+        width: 20rem;
+        font-size: 3rem;
+    }
+    .click-here{
+        font-size:3rem;
+        color: #FFFFFF;
+    }
+}
+
+@media (max-width: 525px) {
+    input{
+        width: 70%;
+    }
+    form{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .form-group{
+        border-radius: 20%;
+    }
+}
+
+@media (max-width: 425px) {
+
+    .info-container{
+        width: 17rem;
+        margin-top: 0.2rem;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input{
+        width: 80%;
+    }
+}
