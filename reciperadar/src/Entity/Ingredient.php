@@ -16,10 +16,10 @@ class Ingredient
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\OneToMany(targetEntity: Quantity::class, mappedBy: 'ingredient', cascade: ['persist', 'remove'])]
-    private $quantities;
+    private ArrayCollection $quantities;
 
     public function __construct()
     {

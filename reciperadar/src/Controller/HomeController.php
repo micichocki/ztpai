@@ -4,41 +4,69 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+
+use App\Repository\RecipeRepository;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'home', methods: ['GET'])]
-    public function home(): JsonResponse
+    public function home(RecipeRepository $recipeRepository): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/HomeController.php',
-        ]);
+        $recipes = $recipeRepository->findAll();
+
+        $recipeData = [];
+        foreach ($recipes as $recipe) {
+            $recipeData[] = [
+                'id' => $recipe->getId(),
+                'name' => $recipe->getName(),
+                'ingredients' => $recipe->getIngredients(),
+                'typeOfCuisine' => $recipe->getTypeOfCuisine(),
+            ];
+        }
+
+        return new JsonResponse($recipeData);
     }
 
     #[Route('/recipe/{id}', name: 'view_recipe', methods: ['GET'])]
-    public function viewRecipe($id): Response
+    public function viewRecipe($id, RecipeRepository $recipeRepository): JsonResponse
     {
-        return new Response("Viewing recipe with ID: $id");
+        $recipe = $recipeRepository->find($id);
+
+        if (!$recipe) {
+            return new JsonResponse(["message" => "failed"]);
+        }
+
+        $recipeData = [
+            'id' => $recipe->getId(),
+            'name' => $recipe->getName(),
+            'ingredients' => $recipe->getIngredients(),
+            'typeOfCuisine' => $recipe->getTypeOfCuisine(),
+        ];
+
+        return new JsonResponse($recipeData);
     }
 
     #[Route('/recipe/{id}/comment/add', name: 'add_comment', methods: ['POST'])]
-    public function addComment($id): Response
+    public function addComment($id): JsonResponse
     {
-        return new Response("Adding comment to recipe with ID: $id");
+        return new JsonResponse(["message" => "success"]);
     }
 
     #[Route('/recipe/add', name: 'add_recipe', methods: ['GET', 'POST'])]
-    public function addRecipe(): Response
+    public function addRecipe(Request $request): JsonResponse
     {
-        return new Response('Add recipe page');
+        if ($request->isMethod('POST')) {
+            return new JsonResponse(["message" => "success"]);
+        }
+
+        return new JsonResponse(["message" => "success"]);
     }
 
     #[Route('/recipe/{id}/favorite', name: 'add_favorite', methods: ['POST'])]
-    public function addFavorite($id): Response
+    public function addFavorite($id): JsonResponse
     {
-        return new Response("Adding recipe with ID: $id to favorites");
+        return new JsonResponse(["message" => "success"]);
     }
 }

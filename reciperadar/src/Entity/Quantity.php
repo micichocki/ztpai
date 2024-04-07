@@ -14,15 +14,15 @@ class Quantity
     private $id;
 
     #[ORM\Column(type: 'float')]
-    private $value;
+    private float $value;
 
     #[ORM\ManyToOne(targetEntity: Unit::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $unit;
+    private Unit $unit;
 
     #[ORM\ManyToOne(targetEntity: Ingredient::class, inversedBy: 'quantities')]
     #[ORM\JoinColumn(nullable: false)]
-    private $ingredient;
+    private Ingredient $ingredient;
 
 
     public function getId(): ?int

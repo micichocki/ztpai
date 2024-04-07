@@ -16,15 +16,15 @@ class Recipe
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     #[ORM\JoinTable(name: 'recipe_ingredient')]
-    private $ingredients;
+    private ArrayCollection $ingredients;
 
     #[ORM\ManyToOne(targetEntity: TypeOfCuisine::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $typeOfCuisine;
+    private TypeOfCuisine $typeOfCuisine;
 
     public function __construct()
     {

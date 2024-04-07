@@ -17,7 +17,7 @@ class UserCredentials
     private $id;
 
     #[ORM\Column(type: 'integer')]
-    private $followersCount = 0;
+    private int $followersCount = 0;
 
     #[ORM\Column(type: 'json')]
     private $followingUsers = [];
@@ -27,7 +27,7 @@ class UserCredentials
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userCredentials', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    private User $user;
 
     #[ORM\ManyToMany(targetEntity: Recipe::class)]
     #[ORM\JoinTable(name: 'user_followed_recipes')]

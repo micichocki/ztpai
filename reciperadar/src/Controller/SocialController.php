@@ -7,24 +7,40 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+use App\Repository\UserRepository;
+
 class SocialController extends AbstractController
 {
     #[Route('/profile/{id}', name: 'view_profile', methods: ['GET'])]
-    public function viewProfile($id): Response
+    public function viewProfile($id, UserRepository $userRepository): JsonResponse
     {
-        return new Response("Viewing profile with ID: $id");
+        $user = $userRepository->find($id);
+
+        if (!$user) {
+            return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $userData = [
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles(),
+            'password' => $user->getPassword(),
+            'userCredentials' => $user->getUserCredentials()
+        ];
+
+        return new JsonResponse($userData);
     }
 
     #[Route('/profile/edit', name: 'edit_profile', methods: ['GET', 'POST'])]
-    public function editProfile(): Response
+    public function editProfile(): JsonResponse
     {
-        return new Response('Edit profile page');
+        return new JsonResponse(["message" => "success"]);
     }
 
-    #[Route('/profile/{id}/add-friend', name: 'add_friend', methods: ['POST'])]
-    public function addFriend($id): Response
+    #[Route('/profile/{id}/add-follow', name: 'add_follow', methods: ['POST'])]
+    public function addFollow($id): JsonResponse
     {
-        return new Response("Adding friend for user with ID: $id");
+        return new JsonResponse(["message" => "success"]);
     }
 
 }
