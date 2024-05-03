@@ -18,6 +18,9 @@ class Recipe
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
+    #[ORM\Column(type: 'text')]
+    private string $description;
+
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     #[ORM\JoinTable(name: 'recipe_ingredient')]
     private ArrayCollection $ingredients;
@@ -44,6 +47,18 @@ class Recipe
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
