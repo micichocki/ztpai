@@ -43,4 +43,10 @@ class SocialController extends AbstractController
         return new JsonResponse(["message" => "success"]);
     }
 
+    #[Route('/add-credentials', name: 'add_follow', methods: ['POST', 'GET'])]
+    public function addCredentials(): JsonResponse
+    {
+        return new JsonResponse(["message" => "success"]);
+    }
+
 }

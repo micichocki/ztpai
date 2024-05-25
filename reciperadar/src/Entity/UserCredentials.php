@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserCredentialsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserCredentialsRepository::class)]
+#[ApiResource]
 class UserCredentials
 {
     #[ORM\Id]
@@ -16,14 +19,17 @@ class UserCredentials
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\GreaterThanOrEqual(0)]
     #[ORM\Column(type: 'integer')]
     private int $followersCount = 0;
+
+    #[Assert\DateTime]
+    #[ORM\Column(type: 'datetime')]
+    private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: 'json')]
     private $followingUsers = [];
 
-    #[ORM\Column(type: 'datetime')]
-    private $createdAt;
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userCredentials', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -56,6 +62,17 @@ class UserCredentials
         return $this;
     }
 
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        if ($createdAt > new \DateTime()) {
+            throw new \InvalidArgumentException("Creation date cannot be in the future.");
+        }
+
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     public function getFollowingUsers(): ?array
     {
         return $this->followingUsers;
@@ -73,12 +90,6 @@ class UserCredentials
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {

@@ -45,4 +45,9 @@ class RecipeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public  function findRecipeById(int $id): ?Recipe
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
 }

@@ -2,35 +2,43 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ApiResource]
 class Recipe
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
-
+    #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private string $description;
-
+    #[Assert\Count(min: 1)]
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     #[ORM\JoinTable(name: 'recipe_ingredient')]
-    private ArrayCollection $ingredients;
-
+    private Collection $ingredients;
+    #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: TypeOfCuisine::class)]
     #[ORM\JoinColumn(nullable: false)]
     private TypeOfCuisine $typeOfCuisine;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'recipe')]
+    private Collection $comments;
+
     public function __construct()
     {
+        $this->comments = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }
 
@@ -71,11 +79,15 @@ class Recipe
         return $this->ingredients;
     }
 
-    public function addIngredient(Ingredient $ingredient): self
+    /**
+     * Initializes the ingredients property as an Collection.
+     *
+     * @param Collection $ingredients The ingredients collection
+     * @return $this
+     */
+    public function setIngredients($ingredients): self
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-        }
+        $this->ingredients = new ArrayCollection($ingredients);
 
         return $this;
     }
@@ -98,4 +110,9 @@ class Recipe
 
         return $this;
     }
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
 }
