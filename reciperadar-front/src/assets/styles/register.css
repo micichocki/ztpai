@@ -14,7 +14,13 @@ main{
     font-size:2rem;
     margin-left:1rem;
     margin-bottom:1.6rem;
-    height:1px;
+    height:200px;
+}
+
+.click-here{
+    text-decoration: none;
+    color:#1EC31B;
+    margin-left:5px;
 }
 
 main {
@@ -254,6 +260,12 @@ input {
     }
     .form-group{
         border-radius: 20%;
+    }
+
+    .messages{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
 

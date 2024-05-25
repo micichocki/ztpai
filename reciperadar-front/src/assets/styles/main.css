@@ -2,7 +2,6 @@ body{
     background-color: #DCFFE6;
 }
 
-
 main{
     display: flex;
     flex-direction: column;
@@ -34,6 +33,7 @@ main{
     margin-bottom: 0;
 
 }
+
 .illustration-author{
     font-family: Jomhuria, sans-serif;
     color: black;
