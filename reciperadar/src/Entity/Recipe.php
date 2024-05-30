@@ -17,21 +17,29 @@ class Recipe
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
+
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private string $description;
+
     #[Assert\Count(min: 1)]
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
     #[ORM\JoinTable(name: 'recipe_ingredient')]
     private Collection $ingredients;
+
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: TypeOfCuisine::class)]
     #[ORM\JoinColumn(nullable: false)]
     private TypeOfCuisine $typeOfCuisine;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $creator;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'recipe')]
     private Collection $comments;
@@ -110,9 +118,21 @@ class Recipe
 
         return $this;
     }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
     public function getComments(): Collection
     {
         return $this->comments;
     }
-
 }
