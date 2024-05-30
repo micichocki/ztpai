@@ -11,23 +11,6 @@ use App\Repository\RecipeRepository;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'home', methods: ['GET'])]
-    public function home(RecipeRepository $recipeRepository): JsonResponse
-    {
-        $recipes = $recipeRepository->findAll();
-
-        $recipeData = [];
-        foreach ($recipes as $recipe) {
-            $recipeData[] = [
-                'id' => $recipe->getId(),
-                'name' => $recipe->getName(),
-                'ingredients' => $recipe->getIngredients(),
-                'typeOfCuisine' => $recipe->getTypeOfCuisine(),
-            ];
-        }
-
-        return new JsonResponse($recipeData);
-    }
 
     #[Route('/recipe/{id}', name: 'view_recipe', methods: ['GET'])]
     public function viewRecipe($id, RecipeRepository $recipeRepository): JsonResponse
