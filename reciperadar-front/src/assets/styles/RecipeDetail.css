@@ -1,0 +1,14 @@
+.btn-recipe-detail{
+    font-size: .85rem;
+    margin-top:0.4rem;
+    width:7rem;
+}
+.btn-delete{
+    margin-left:1rem;
+}
+
+@media (max-width: 767.98px) {
+    .conditional-mt-3 {
+      margin-top: 1rem !important;
+    }
+}
