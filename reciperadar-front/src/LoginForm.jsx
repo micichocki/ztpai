@@ -20,7 +20,6 @@ function LoginForm() {
 
             if (response.status === 200) {
                 const token = response.data.token;
-                console.log()
                 if (token) {
                     const token = response.data.token;
                     localStorage.setItem("token", token);
