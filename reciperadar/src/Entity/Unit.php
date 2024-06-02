@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UnitRepository;
@@ -15,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(    operations: [
     new Get(),
     new Post(),
-    new Put()
+    new Put(),
+    new GetCollection(),
 ],)]
 class Unit
 {

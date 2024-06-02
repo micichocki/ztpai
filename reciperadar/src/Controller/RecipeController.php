@@ -151,12 +151,23 @@ class RecipeController extends AbstractController
 
 
     #[Route('/api/recipes/{id}', name: 'delete_recipe', methods: ['DELETE'])]
-    public function deleteRecipe(int $id, EntityManagerInterface $entityManager): JsonResponse
+    public function deleteRecipe(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $recipe = $entityManager->getRepository(Recipe::class)->find($id);
+        $recipeId = $request->attributes->get('id');
+        $recipe = $entityManager->getRepository(Recipe::class)->find($recipeId);
 
         if (!$recipe) {
             return new JsonResponse(['error' => 'Recipe not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $comments = $recipe->getComments();
+        foreach ($comments as $comment) {
+            $entityManager->remove($comment);
+        }
+
+        $ingredients = $recipe->getIngredients();
+        foreach ($ingredients as $ingredient) {
+            $entityManager->remove($ingredient);
         }
 
         $entityManager->remove($recipe);
@@ -164,6 +175,7 @@ class RecipeController extends AbstractController
 
         return new JsonResponse(['success' => true]);
     }
+
     #[Route('api/users/{user_id}/recipes/{recipe_id}', name: 'recipe_add_to_favorites', methods: ['POST'])]
     public function addToFavorites(int $user_id,int $recipe_id, RecipeRepository $recipeRepository): JsonResponse
     {
