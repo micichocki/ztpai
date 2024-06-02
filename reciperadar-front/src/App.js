@@ -47,9 +47,7 @@ function App() {
 
 function Register() {
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 ">
       <RegisterForm />
-    </div>
   );
 }
 
@@ -57,10 +55,7 @@ function Register() {
 
 function Login() {
   return (
-      <div className="d-flex justify-content-center align-items-center vh-100 ">
         <LoginForm />
-      </div>
-
   );
 }
 

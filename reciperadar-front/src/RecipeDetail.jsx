@@ -125,6 +125,15 @@ function RecipeDetail({ isAuthenticated }) {
     }
   };
 
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (e) => {
+      const value = e.target.value;
+      if (value > 0) {
+          setQuantity(value);
+      }
+  };
+
   if (loading || !recipe) {
     return <div>Loading...</div>;
   }
@@ -137,109 +146,122 @@ function RecipeDetail({ isAuthenticated }) {
 
   return (
     <div className="container mt-4">
-      {recipe && (
-        <>
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1>{recipe.name}</h1>
-            {isFollowed ? (
-              <Link
-                to="#"
-                className="btn btn-sm btn-follow btn-danger btn-unfollow"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleUnfollowRecipe(recipe.id);
-                }}
-              >
-                <span className="material-symbols-outlined">heart_broken</span>
-              </Link>
-            ) : (
-              <Link
-                to="#"
-                className="btn btn-warning btn-sm btn-follow"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleFollowRecipe(recipe.id);
-                }}
-              >
-                <span className="material-symbols-outlined">favorite</span>
-              </Link>
-            )}
-          </div>
-          <div className="row">
-            <div className="col-md-8">
-              <Card>
-                <Card.Body>
-                  <Card.Title>Description</Card.Title>
-                  <Card.Text>{recipe.description}</Card.Text>
-                </Card.Body>
-              </Card>
-              <Card className="mt-4">
-                <Card.Body>
-                  <Card.Title>Ingredients</Card.Title>
-                  <ul>
-                    {recipe.ingredients.map((ingredient, index) => (
-                      <li key={index}>{ingredient.name}</li>
-                    ))}
-                  </ul>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col-md-4">
-              <Card className="conditional-mt-3">
-                <Card.Body>
-                  <Card.Title>Type of Cuisine</Card.Title>
-                  <Card.Text>{recipe.typeOfCuisine.name}</Card.Text>
-                </Card.Body>
-              </Card>
-              <Card className="mt-4">
-                <Card.Body>
-                  <Card.Title>Comments</Card.Title>
-                  {recipe.comments.length > 0 ? (
-                    <ul>
-                      {recipe.comments.map((comment, index) => (
-                        <li key={index}>
-                          <strong>{comment.creator.email}</strong>: {comment.content}
-                          {(isCreator || isAdmin) && (
-                            <Button className='x-btn' onClick={() => handleDeleteComment(comment.id)}>Delete</Button>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div>No comments yet</div>
-                  )}
-                </Card.Body>
-              </Card>
-              <Card className="mt-4">
-                <Card.Body>
-                  <Card.Title>Add Comment</Card.Title>
-                  <Form onSubmit={handleSubmitComment}>
-                    <Form.Group controlId="commentContent">
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter your comment"
-                        value={commentContent}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Button className='action-btn mt-2' variant="primary" type="submit">Add Comment</Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <div className="mt-4">
-            {(isCreator || isAdmin) && (
-              <>
-                <Button className='action-btn' variant="primary">Edit Recipe</Button>
-                <Button className='action-btn margin-l3' variant="danger" onClick={handleDeleteRecipe}>Delete Recipe</Button>
-              </>
-            )}
-          </div>
-        </>
-      )}
+        {recipe && (
+            <>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h1>{recipe.name}</h1>
+                    {isFollowed ? (
+                        <Link
+                            to="#"
+                            className="btn btn-sm btn-follow btn-danger btn-unfollow"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleUnfollowRecipe(recipe.id);
+                            }}
+                        >
+                            <span className="material-symbols-outlined">heart_broken</span>
+                        </Link>
+                    ) : (
+                        <Link
+                            to="#"
+                            className="btn btn-warning btn-sm btn-follow"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleFollowRecipe(recipe.id);
+                            }}
+                        >
+                            <span className="material-symbols-outlined">favorite</span>
+                        </Link>
+                    )}
+                </div>
+                <div className="row">
+                    <div className="col-md-8">
+                        <Card>
+                            <Card.Body>
+                                <Card.Title>Description</Card.Title>
+                                <Card.Text>{recipe.description}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                        <Card className="mt-4">
+                            <Card.Body>
+                                <Card.Title>Ingredients</Card.Title>
+                                <ul>
+                                    {recipe.ingredients.map((ingredient, index) => (
+                                        <li key={index}>{ingredient.name}</li>
+                                    ))}
+                                </ul>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <div className="col-md-4">
+                        <Card className="conditional-mt-3">
+                            <Card.Body>
+                                <Card.Title>Type of Cuisine</Card.Title>
+                                <Card.Text>{recipe.typeOfCuisine.name}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                        <Card className="mt-4">
+                            <Card.Body>
+                                <Card.Title>Comments</Card.Title>
+                                {recipe.comments.length > 0 ? (
+                                    <ul>
+                                        {recipe.comments.map((comment, index) => (
+                                            <li key={index}>
+                                                <strong>{comment.creator.email}</strong>: {comment.content}
+                                                {(isCreator || isAdmin) && (
+                                                    <Button className='x-btn' onClick={() => handleDeleteComment(comment.id)}>Delete</Button>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <div>No comments yet</div>
+                                )}
+                            </Card.Body>
+                        </Card>
+                        <Card className="mt-4">
+                            <Card.Body>
+                                <Card.Title>Add Comment</Card.Title>
+                                <Form onSubmit={handleSubmitComment}>
+                                    <Form.Group controlId="commentContent">
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Enter your comment"
+                                            value={commentContent}
+                                            onChange={handleChange}
+                                        />
+                                    </Form.Group>
+                                    <Button className='action-btn mt-2' variant="primary" type="submit">Add Comment</Button>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                        <Card className="mt-4">
+                            <Card.Body>
+                                <Card.Title>Quantity</Card.Title>
+                                <Form.Group controlId="quantity">
+                                    <Form.Control
+                                        type="number"
+                                        min="1"
+                                        value={quantity}
+                                        onChange={handleQuantityChange}
+                                    />
+                                </Form.Group>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                </div>
+                <div className="mt-4">
+                    {(isCreator || isAdmin) && (
+                        <>
+                            <Button className='action-btn' variant="primary">Edit Recipe</Button>
+                            <Button className='action-btn margin-l3' variant="danger" onClick={handleDeleteRecipe}>Delete Recipe</Button>
+                        </>
+                    )}
+                </div>
+            </>
+        )}
     </div>
-  );
+);
 }
 
 export default RecipeDetail;

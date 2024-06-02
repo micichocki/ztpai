@@ -39,7 +39,10 @@
     background-color: #f8f9fa;
     border-radius: 10px;
     height:100px;
+    width:50%;
+    margin:0 auto;
     border: 1px black solid;
+    min-width: 400px;
 }
 
 .h2-recipe-radar{

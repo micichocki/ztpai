@@ -98,7 +98,7 @@ function AddRecipeForm() {
   };
 
   return (
-    <div className="container">
+    <div className="container-edit">
       <div className="d-flex flex-row space-between">
         <h2 className='add-recipe-header'>Add New Recipe</h2>
         <Link to="/dashboard" className="ml-4 btn btn-lg btn-success add-recipe-button">Return</Link>

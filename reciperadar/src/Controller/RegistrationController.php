@@ -35,6 +35,12 @@ class RegistrationController extends AbstractController
             return $this->json(['error' => 'Passwords do not match.'], 400);
         }
 
+        // Check if the email already exists
+        $existingUser = $em->getRepository(User::class)->findOneBy(['email' => $email]);
+        if ($existingUser) {
+            return $this->json(['error' => 'Email already exists.'], 400);
+        }
+
         $user = new User();
         $hashedPassword = $passwordHasher->hashPassword(
             $user,
@@ -53,5 +59,6 @@ class RegistrationController extends AbstractController
 
         return $this->json(['message' => 'Registered successfully!']);
     }
+
 }
 

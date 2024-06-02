@@ -31,22 +31,5 @@ class SocialController extends AbstractController
         return new JsonResponse($userData);
     }
 
-//    #[Route('/profile/edit', name: 'edit_profile', methods: ['GET', 'POST'])]
-//    public function editProfile(): JsonResponse
-//    {
-//        return new JsonResponse(["message" => "success"]);
-//    }
-//
-//    #[Route('/profile/{id}/add-follow', name: 'add_follow', methods: ['POST'])]
-//    public function addFollow($id): JsonResponse
-//    {
-//        return new JsonResponse(["message" => "success"]);
-//    }
-//
-//    #[Route('/add-credentials', name: 'add_follow', methods: ['POST', 'GET'])]
-//    public function addCredentials(): JsonResponse
-//    {
-//        return new JsonResponse(["message" => "success"]);
-//    }
 
 }

@@ -116,7 +116,7 @@ function RecipeView() {
   }
 
   return (
-    <div className="container">
+    <div className="container2">
       {message && (
         <Alert variant="success">
           {message}

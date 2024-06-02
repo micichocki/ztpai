@@ -17,3 +17,8 @@
     .space-between{
         justify-content: space-between;
     }
+    .container-edit{
+        width:50%;
+        margin:0 auto;
+        margin-top:2rem;
+    }

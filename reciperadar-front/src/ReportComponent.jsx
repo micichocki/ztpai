@@ -35,7 +35,8 @@ function ReportIssueForm() {
   };
 
   return (
-    <Container className="d-flex justify-content-center mt-5 flex-column">
+    <Container >
+      <div className="d-flex justify-content-center mt-5 flex-column">
         <h2>Please send us Your feedback!</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="title">
@@ -71,6 +72,7 @@ function ReportIssueForm() {
           {error}
         </Alert>
       )}
+      </div>
     </Container>
   );
 }
