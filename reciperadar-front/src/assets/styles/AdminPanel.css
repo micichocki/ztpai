@@ -1,0 +1,28 @@
+
+.admin-panel-container {
+    display: flex;
+  }
+  
+  .user-list {
+    width: 25%;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .mark-resolved{
+    width:10rem;
+    font-size:1rem;
+  }
+  .issue-list {
+    width: 75%;
+    padding: 10px;
+  }
+  
+  .card {
+    margin-bottom: 10px;
+  }
+
+  .w-40p{
+    width: 40%;
+  }
+  

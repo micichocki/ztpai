@@ -11,6 +11,8 @@ import RecipeDetail from './RecipeDetail';
 import RecipeAddComponent from './RecipeAddComponent'
 import Logout from './LogoutComponent';
 import Profile from './ProfileComponent';
+import ReportIssueForm from './ReportComponent'
+import AdminPanel from './AdminPanel'
 import 'jquery';
 import 'popper.js'; 
 
@@ -35,6 +37,8 @@ function App() {
           <Route path="/add-recipe" element={<RecipeAddComponent isAuthenticated={isAuthenticated} />} />
           <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/profile/:id" element={<Profile setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/report" element={<ReportIssueForm setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/admin" element={<AdminPanel setIsAuthenticated={setIsAuthenticated} />} />
         </Routes>
       </div>
     </Router>
