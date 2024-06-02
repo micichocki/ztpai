@@ -16,14 +16,13 @@ function RegisterForm() {
         event.preventDefault();
         const uninterceptedAxiosInstance = axios.create();
         try {
-            
             const response = await uninterceptedAxiosInstance.post('https://localhost:8000/api/register', {
                 email,
                 password,
                 confirmPassword 
             });
             
-            if (response.status === 200) {
+            if (response.status === 200) { 
                 console.log('Registration successful');
                 navigate('/'); 
             } else {
@@ -31,7 +30,11 @@ function RegisterForm() {
             }
         } catch (error) {
             console.error('Error occurred:', error);
-            setError('Error occurred. Please try again.');
+            if (error.response && error.response.data && error.response.data.error) {
+                setError(error.response.data.error); 
+            } else {
+                setError('Error occurred. Please try again.');
+            }
         }
     };
 

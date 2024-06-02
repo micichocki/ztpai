@@ -32,7 +32,10 @@ body {
 .margin-l3{
     margin-left: 2rem;
 }
-
+.container-detail{
+    width:80%;
+    margin:0 auto;
+}
 
 @media (max-width: 767.98px) {
     .conditional-mt-3 {

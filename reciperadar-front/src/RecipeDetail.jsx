@@ -145,7 +145,7 @@ function RecipeDetail({ isAuthenticated }) {
   const isAdmin = user_role.includes('ADMIN');
 
   return (
-    <div className="container mt-4">
+    <div className="mt-4 container-detail">
         {recipe && (
             <>
                 <div className="d-flex justify-content-between align-items-center mb-4">
@@ -235,25 +235,13 @@ function RecipeDetail({ isAuthenticated }) {
                                 </Form>
                             </Card.Body>
                         </Card>
-                        <Card className="mt-4">
-                            <Card.Body>
-                                <Card.Title>Quantity</Card.Title>
-                                <Form.Group controlId="quantity">
-                                    <Form.Control
-                                        type="number"
-                                        min="1"
-                                        value={quantity}
-                                        onChange={handleQuantityChange}
-                                    />
-                                </Form.Group>
-                            </Card.Body>
-                        </Card>
+                        
                     </div>
                 </div>
                 <div className="mt-4">
                     {(isCreator || isAdmin) && (
                         <>
-                            <Button className='action-btn' variant="primary">Edit Recipe</Button>
+                            {/* <Button className='action-btn' variant="primary">Edit Recipe</Button> */}
                             <Button className='action-btn margin-l3' variant="danger" onClick={handleDeleteRecipe}>Delete Recipe</Button>
                         </>
                     )}

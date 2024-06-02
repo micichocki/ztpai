@@ -18,16 +18,15 @@ function LoginForm() {
                 username,
                 password
             });
-
+    
             if (response.status === 200) {
                 const token = response.data.token;
                 if (token) {
-                    const token = response.data.token;
                     localStorage.setItem("token", token);
                     
                     console.log('Login successful');
-                    navigate('/dashboard'); 
-                    window.location.reload()
+                    navigate('/dashboard');
+                    window.location.reload();
                 } else {
                     setError('Token not found in response');
                 }
@@ -36,7 +35,11 @@ function LoginForm() {
             }
         } catch (error) {
             console.error('Error occurred:', error);
-            setError('Please provide correct credentials');
+            if (error.response && error.response.data && error.response.data.error) {
+                setError(error.response.data.error);
+            } else {
+                setError('Please provide correct credentials');
+            }
         }
     };
 
