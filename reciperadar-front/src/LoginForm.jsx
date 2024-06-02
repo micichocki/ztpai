@@ -57,6 +57,7 @@ function LoginForm() {
 
                     <label htmlFor="email">Email</label>
                     <input
+                        className='auth-input'
                         type="email"
                         id="email"
                         name="username"
@@ -67,6 +68,7 @@ function LoginForm() {
 
                     <label htmlFor="password">Password</label>
                     <input
+                    className='auth-input'
                         type="password"
                         id="password"
                         name="password"

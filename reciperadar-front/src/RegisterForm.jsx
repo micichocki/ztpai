@@ -51,6 +51,7 @@ function RegisterForm() {
               <form onSubmit={handleSubmit} id="main-form">
                     <label htmlFor="email">Email</label>
                     <input
+                        className='auth-input'
                         type="email"
                         id="email"
                         name="email"
@@ -61,6 +62,7 @@ function RegisterForm() {
 
                     <label htmlFor="password">Password</label>
                     <input
+                        className='auth-input'
                         type="password"
                         id="password"
                         name="password"
@@ -73,7 +75,7 @@ function RegisterForm() {
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"
-
+                        className='auth-input'
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}                
                     />

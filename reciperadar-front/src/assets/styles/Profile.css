@@ -12,6 +12,17 @@ main {
     height:2rem;
   }
 
+.personal-info-form{
+  display:flex;
+  justify-content: center;
+}
+
+
+.bottom-profile-side{
+  width:70%;
+  display:flex;
+  margin:0 auto;
+}
   .view-detail-btn{
     width:8rem;
   }
@@ -126,6 +137,7 @@ main {
     padding-top: 0.9rem;
     font-family: "Jomhuria", sans-serif;
     height:2rem;
+    padding-bottom:.4rem;
   }
   
   .personal-info-form > input::placeholder {

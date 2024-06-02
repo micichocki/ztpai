@@ -3,6 +3,7 @@ import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 
+
 function ReportIssueForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -35,8 +36,8 @@ function ReportIssueForm() {
   };
 
   return (
-    <Container >
-      <div className="d-flex justify-content-center mt-5 flex-column">
+    
+      <div className="d-flex justify-content-center mt-5 flex-column report-container">
         <h2>Please send us Your feedback!</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="title">
@@ -73,7 +74,7 @@ function ReportIssueForm() {
         </Alert>
       )}
       </div>
-    </Container>
+
   );
 }
 

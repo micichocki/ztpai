@@ -35,6 +35,10 @@
     height: 50px;
 }
 
+.container2{
+    margin:0 20px;
+}
+
 .sub-bar{
     background-color: #f8f9fa;
     border-radius: 10px;

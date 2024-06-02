@@ -33,6 +33,7 @@ function Profile() {
       console.log('User data updated successfully');
       localStorage.setItem('name', userData.name);
       localStorage.setItem('surname', userData.surname);
+      window.location.reload();
     } catch (error) {
       console.error('Error updating user data:', error);
     }
@@ -82,9 +83,10 @@ function Profile() {
  let followers_count = localStorage.getItem('followers_count');
 
   return (
+    <main>
 <div>
 <div>
-      <main>
+      
         <div className="settings-nav">
           <ul className="settings-buttons">
             <li className='setings-button'><a href="">Personal Info</a></li>
@@ -125,13 +127,13 @@ function Profile() {
             <Button variant="secondary" type="submit">Submit</Button>
           </form>
         </div>
-      </main>
+     
     </div>
     <div>
       <h1 className='text-center'>Followed Recipes</h1>
-      <div className="row">
+      <div className="row bottom-profile-side">
         {followedRecipes.map(recipe => (
-          <div key={recipe.id} className="col-md-4 mb-4">
+          <div key={recipe.id} className="col-md-4 mb-4 ">
             <Card>
               <Card.Body>
                 <Card.Title>{recipe.name}</Card.Title>
@@ -154,6 +156,7 @@ function Profile() {
       </div>
     </div>
     </div>
+    </main>
   );
 }
 
