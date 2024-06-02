@@ -26,7 +26,7 @@ Użytkownicy mogą łatwo dzielić się swoimi ulubionymi przepisami, inspirują
 ERD:
 
 
-![erd.png](..%2F..%2F..%2F..%2F..%2FDownloads%2Ferd.png)
+![erd](https://github.com/micichocki/ztpai/assets/92631661/1dc65b78-eada-4df7-a5b4-d9374ba0c2c9)
 
 
 
