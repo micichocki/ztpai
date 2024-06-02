@@ -15,9 +15,8 @@ const useAuth = () => {
         }
 
         const response = await axios.post('https://localhost:8000/jwt_verify', { token });
-        const { valid, user_id, user_role } = response.data;
-        localStorage.setItem("user_id",user_id)
-        localStorage.setItem("user_role",user_role)
+        const { valid, user_id, user_role, user_credentials, email } = response.data;
+        localStorage.setItem("user_id", user_id);
         if (!valid) {
           navigate('/');
         }
