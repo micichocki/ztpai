@@ -17,6 +17,7 @@ function AddRecipeForm() {
   });
   const [units, setUnits] = useState([]);
   const [typesOfCuisine, setTypesOfCuisine] = useState([]);
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchUnits = async () => {
@@ -25,6 +26,7 @@ function AddRecipeForm() {
         setUnits(response.data['hydra:member']);
       } catch (error) {
         console.error('Error fetching units:', error);
+        setError('Error fetching units. Please try again.');
       }
     };
 
@@ -34,6 +36,7 @@ function AddRecipeForm() {
         setTypesOfCuisine(response.data['hydra:member']);
       } catch (error) {
         console.error('Error fetching types of cuisine:', error);
+        setError('Error fetching types of cuisine. Please try again.'); 
       }
     };
 
@@ -94,6 +97,7 @@ function AddRecipeForm() {
       navigate('/dashboard');
     } catch (error) {
       console.error('Error creating recipe:', error);
+      setError('Error creating recipe. Please try again.'); 
     }
   };
 
@@ -103,25 +107,30 @@ function AddRecipeForm() {
         <h2 className='add-recipe-header'>Add New Recipe</h2>
         <Link to="/dashboard" className="ml-4 btn btn-lg btn-success add-recipe-button">Return</Link>
       </div>
+      {error && 
+        <div className="alert alert-danger mt-1" role="alert">
+          {error}
+        </div>
+      }
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="name">
+      <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" name="name" value={recipeData.name} onChange={handleChange} />
+          <Form.Control type="text" name="name" value={recipeData.name} onChange={handleChange} required />
         </Form.Group>
         <Form.Group controlId="description">
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} name="description" value={recipeData.description} onChange={handleChange} />
+          <Form.Control as="textarea" rows={3} name="description" value={recipeData.description} onChange={handleChange}  required/>
         </Form.Group>
         <Form.Group controlId="typeOfCuisine">
           <Form.Label>Type of Cuisine</Form.Label>
-          <Form.Control as="select" name="typeOfCuisine" value={recipeData.typeOfCuisine} onChange={handleChange}>
+          <Form.Control as="select" name="typeOfCuisine" value={recipeData.typeOfCuisine} onChange={handleChange} required>
             <option value="">Select Type of Cuisine</option>
             {typesOfCuisine.map((cuisine) => (
               <option key={cuisine.id} value={cuisine.id}>{cuisine.name}</option>
             ))}
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="ingredients" className='mb-3'>
+        <Form.Group controlId="ingredients" className='mb-3' required>
           <Form.Label>Ingredients</Form.Label>
           {recipeData.ingredients.map((ingredient, index) => (
             <div className='my-4' key={index}>

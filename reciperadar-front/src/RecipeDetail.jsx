@@ -5,6 +5,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import useAuth from './useAuth';
 import './assets/styles/RecipeDetail.css';
 
+
 function RecipeDetail({ isAuthenticated }) {
   useAuth(isAuthenticated);
   const { id } = useParams();
@@ -13,6 +14,7 @@ function RecipeDetail({ isAuthenticated }) {
   const [loading, setLoading] = useState(true);
   const [commentContent, setCommentContent] = useState('');
   const [isFollowed, setIsFollowed] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -24,6 +26,7 @@ function RecipeDetail({ isAuthenticated }) {
       } catch (error) {
         console.error('Error fetching recipe:', error);
         setLoading(false);
+        setError('Error fetching recipe. Please try again.'); 
       }
     };
 
@@ -46,6 +49,7 @@ function RecipeDetail({ isAuthenticated }) {
       navigate('/dashboard');
     } catch (error) {
       console.error('Error deleting recipe:', error);
+      setError('Error deleting recipe. Please try again.'); 
     }
   };
 
@@ -145,7 +149,13 @@ function RecipeDetail({ isAuthenticated }) {
   const isAdmin = user_role.includes('ADMIN');
 
   return (
+    
     <div className="mt-4 container-detail">
+       {error && 
+                  <div className="alert alert-danger mt-1 alert-login" role="alert">
+                    {error}
+                  </div>
+                }
         {recipe && (
             <>
                 <div className="d-flex justify-content-between align-items-center mb-4">
@@ -187,7 +197,7 @@ function RecipeDetail({ isAuthenticated }) {
                                 <Card.Title>Ingredients</Card.Title>
                                 <ul>
                                     {recipe.ingredients.map((ingredient, index) => (
-                                        <li key={index}>{ingredient.name}</li>
+                                        <li key={index}>{ingredient.name }  x {ingredient.quantity} {ingredient.unit.name}</li>
                                     ))}
                                 </ul>
                             </Card.Body>
@@ -229,6 +239,7 @@ function RecipeDetail({ isAuthenticated }) {
                                             placeholder="Enter your comment"
                                             value={commentContent}
                                             onChange={handleChange}
+                                            required
                                         />
                                     </Form.Group>
                                     <Button className='action-btn mt-2' variant="primary" type="submit">Add Comment</Button>

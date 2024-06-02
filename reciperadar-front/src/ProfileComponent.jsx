@@ -110,6 +110,7 @@ function Profile() {
               placeholder="Enter your name"
               value={userData.name}
               onChange={handleChange}
+              required
             />
 
             <label htmlFor="surname">Surname *</label>
@@ -122,6 +123,7 @@ function Profile() {
               placeholder="Enter your surname"
               value={userData.surname}
               onChange={handleChange}
+              required
             />
 
             <Button variant="secondary" type="submit">Submit</Button>

@@ -92,42 +92,53 @@ class RecipeController extends AbstractController
     #[Route('recipes', name: 'createRecipe', methods: ['POST'])]
     public function createRecipe(Request $request, EntityManagerInterface $entityManager, TypeOfCuisineRepository $typeOfCuisineRepository, UserRepository $userRepository): JsonResponse
     {
-        $requestData = json_decode($request->getContent(), true);
-        $name = $requestData['name'];
-        $description = $requestData['description'];
-        $typeOfCuisineName = $requestData['typeOfCuisine'];
-        $ingredients = $requestData['ingredients'];
-        $creatorId = $requestData['creator_id'];
-        $creator = $userRepository->findOneById($creatorId);
+        try {
+            $requestData = json_decode($request->getContent(), true);
+            $name = $requestData['name'];
+            $description = $requestData['description'];
+            $typeOfCuisineName = $requestData['typeOfCuisine'];
+            $ingredients = $requestData['ingredients'];
+            $creatorId = $requestData['creator_id'];
+            $creator = $userRepository->findOneById($creatorId);
 
+            $recipe = new Recipe();
+            $recipe->setCreator($creator);
+            $recipe->setName($name);
+            $recipe->setDescription($description);
 
-        $recipe = new Recipe();
-        $recipe->setCreator($creator);
-        $recipe->setName($name);
-        $recipe->setDescription($description);
+            $typeOfCuisine = $typeOfCuisineRepository->findByName($typeOfCuisineName);
 
-        $typeOfCuisine = $typeOfCuisineRepository->findByName($typeOfCuisineName);
+            $recipe->setTypeOfCuisine($typeOfCuisine);
 
-        $recipe->setTypeOfCuisine($typeOfCuisine);
+            foreach ($ingredients as $ingredientData) {
+                $ingredient = new Ingredient();
+                $ingredient->setName($ingredientData['ingredient']);
 
-        foreach ($ingredients as $ingredientData) {
-            $ingredient = new Ingredient();
-            $ingredient->setName($ingredientData['ingredient']);
-            $ingredient->setQuantity($ingredientData['quantity']);
+                if ($ingredientData['quantity'] <= 0) {
+                    return new JsonResponse(['error' => 'Quantity must be positive'], 400);
+                }
 
-            $unit = $entityManager->getRepository(Unit::class)->find($ingredientData['unit']);
-            $ingredient->setUnit($unit);
+                try {
+                    $ingredient->setQuantity($ingredientData['quantity']);
+                } catch (\TypeError $e) {
+                    return new JsonResponse(['error' => 'Quantity must be of type float'], 400);
+                }
 
-            $recipe->addIngredient($ingredient);
-            $entityManager->persist($ingredient);
+                $unit = $entityManager->getRepository(Unit::class)->find($ingredientData['unit']);
+                $ingredient->setUnit($unit);
+
+                $recipe->addIngredient($ingredient);
+                $entityManager->persist($ingredient);
+            }
+
+            $entityManager->persist($recipe);
+            $entityManager->flush();
+
+            return new JsonResponse(['success' => true, 'recipe' => $recipe]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'An unexpected error occurred'], 500);
         }
-
-        $entityManager->persist($recipe);
-        $entityManager->flush();
-
-        return new JsonResponse(['success' => true, 'recipe' => $recipe]);
     }
-
 
     #[Route('/api/recipes/{recipeId}/comments', name: 'addComent', methods: ['POST'])]
     public function addComment(Request $request, int $id, EntityManagerInterface $entityManager): JsonResponse
