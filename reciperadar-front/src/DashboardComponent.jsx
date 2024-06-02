@@ -5,7 +5,7 @@ import { Card, Button } from 'react-bootstrap';
 import './assets/styles/Dashboard.css';
 import useAuth from './useAuth';
 import { useLocation } from 'react-router-dom';
-import { Container, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 function RecipeView() {
   useAuth();
@@ -41,6 +41,15 @@ function RecipeView() {
     const storedFollowedRecipes = JSON.parse(localStorage.getItem('followed_recipes')) || [];
     setFollowedRecipes(storedFollowedRecipes);
   }, []);
+
+  function truncateDescription(description, maxLength) {
+    if (description.length <= maxLength) {
+      return description;
+    } else {
+      return description.substring(0, maxLength) + "...";
+    }
+  }
+  
 
   useEffect(() => {
     const results = recipes.filter(recipe =>
@@ -78,8 +87,11 @@ function RecipeView() {
   };
 
   const handleUnfollowRecipe = async (recipeId) => {
-    const userId = localStorage.getItem('user_id');
-    
+  const userId = localStorage.getItem('user_id');
+  
+  
+
+  
     try {
       await axios.delete(
         `https://localhost:8000/api/users/${userId}/recipes/${recipeId}`,
@@ -131,7 +143,7 @@ function RecipeView() {
               <Card>
                 <Card.Body>
                   <Card.Title>{recipe.name}</Card.Title>
-                  <Card.Text>{recipe.description}</Card.Text>
+                  <Card.Text>{truncateDescription(recipe.description, 100)}</Card.Text>
                   {recipe.ingredients.length > 0 && (
                     <Card.Text>
                       <strong>Ingredients:</strong> {recipe.ingredients.map(ingredient => (

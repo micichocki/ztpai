@@ -42,8 +42,8 @@ function RecipeDetail({ isAuthenticated }) {
   const handleDeleteRecipe = async () => {
     try {
       await axios.delete(`https://localhost:8000/api/recipes/${id}`);
-      console.log('Recipe deleted successfully');
-      navigate('/');
+      
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error deleting recipe:', error);
     }

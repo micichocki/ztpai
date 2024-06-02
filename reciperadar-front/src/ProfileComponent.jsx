@@ -3,8 +3,10 @@ import axios from './axiosConfig';
 import { Card, Button } from 'react-bootstrap';
 import './assets/styles/Profile.css'
 import { Link } from 'react-router-dom';
+import useAuth from './useAuth';
 
 function Profile() {
+  useAuth();
   const [userData, setUserData] = useState({
     name: '',
     surname: '',
@@ -87,7 +89,7 @@ function Profile() {
           <ul className="settings-buttons">
             <li className='setings-button'><a href="">Personal Info</a></li>
             <li className='setings-button'><a href="">Settings</a></li>
-            <li className='setings-button'>Followers count: {followers_count}</li>
+            {/* <li className='setings-button'>Followers count: {followers_count}</li> */}
           </ul>
         </div>
 

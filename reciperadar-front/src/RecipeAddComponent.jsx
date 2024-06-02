@@ -99,9 +99,9 @@ function AddRecipeForm() {
 
   return (
     <div className="container">
-      <div className="d-flex flex-row justify-content-center">
+      <div className="d-flex flex-row space-between">
         <h2 className='add-recipe-header'>Add New Recipe</h2>
-        <Link to="/dashboard" className="ml-2 btn btn-lg btn-success add-recipe-button">Return</Link>
+        <Link to="/dashboard" className="ml-4 btn btn-lg btn-success add-recipe-button">Return</Link>
       </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="name">

@@ -23,7 +23,6 @@ const useAuth = () => {
         localStorage.setItem("surname", user_credentials.surname);
         localStorage.setItem("uc_id", user_credentials.id);
         localStorage.setItem("followed_recipes", JSON.stringify(user_credentials.followed_recipes)); 
-        console.log(user_credentials.followers_count)
         localStorage.setItem("followers_count", JSON.stringify(user_credentials.followers_count)); 
         if (!valid) {
           navigate('/');

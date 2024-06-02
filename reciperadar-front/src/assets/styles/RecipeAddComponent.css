@@ -13,3 +13,7 @@
     .add-ingredient-button{
         width:10rem;
     }
+
+    .space-between{
+        justify-content: space-between;
+    }
