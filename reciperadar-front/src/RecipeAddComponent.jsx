@@ -1,17 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from './axiosConfig';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import useAuth from './useAuth';
+import './assets/styles/RecipeAddComponent.css';
+import { useNavigate } from 'react-router-dom';
 
 function AddRecipeForm() {
   useAuth();
+  const navigate = useNavigate();
   const [recipeData, setRecipeData] = useState({
     name: '',
     description: '',
     typeOfCuisine: '',
     ingredients: [{ ingredient: '', quantity: '', unit: '' }],
   });
+  const [units, setUnits] = useState([]);
+  const [typesOfCuisine, setTypesOfCuisine] = useState([]);
+
+  useEffect(() => {
+    const fetchUnits = async () => {
+      try {
+        const response = await axios.get('https://localhost:8000/api/units');
+        setUnits(response.data['hydra:member']);
+      } catch (error) {
+        console.error('Error fetching units:', error);
+      }
+    };
+
+    const fetchTypesOfCuisine = async () => {
+      try {
+        const response = await axios.get('https://localhost:8000/api/type_of_cuisines');
+        setTypesOfCuisine(response.data['hydra:member']);
+      } catch (error) {
+        console.error('Error fetching types of cuisine:', error);
+      }
+    };
+
+    fetchUnits();
+    fetchTypesOfCuisine();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +50,6 @@ function AddRecipeForm() {
   };
 
   const handleIngredientChange = (index, e) => {
-
     const { name, value } = e.target;
     const ingredients = [...recipeData.ingredients];
     ingredients[index][name] = value;
@@ -42,8 +69,29 @@ function AddRecipeForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://localhost:8000/api/recipes', recipeData);
+      const user_id = localStorage.getItem('user_id');
+      if (!user_id) {
+        console.error('User ID not found in local storage');
+        return;
+      }
+  
+      const requestData = {
+        ...recipeData,
+        creator_id: user_id
+      };
+  
+      const response = await axios.post(
+        'https://localhost:8000/recipes',
+        JSON.stringify(requestData),
+        {
+          headers: {
+            'Content-Type': 'application/ld+json',
+          },
+        }
+      );
       console.log('Recipe created:', response.data);
+  
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error creating recipe:', error);
     }
@@ -51,9 +99,9 @@ function AddRecipeForm() {
 
   return (
     <div className="container">
-      <div class="d-flex flex-row justify-content-center">
-      <h2>Add New Recipe</h2>
-      <Link to="/dashboard" className="ml-2 btn btn-lg btn-success add-recipe-button">Return</Link>
+      <div className="d-flex flex-row justify-content-center">
+        <h2 className='add-recipe-header'>Add New Recipe</h2>
+        <Link to="/dashboard" className="ml-2 btn btn-lg btn-success add-recipe-button">Return</Link>
       </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="name">
@@ -64,24 +112,34 @@ function AddRecipeForm() {
           <Form.Label>Description</Form.Label>
           <Form.Control as="textarea" rows={3} name="description" value={recipeData.description} onChange={handleChange} />
         </Form.Group>
-        <Form.Group controlId="ingredients">
+        <Form.Group controlId="typeOfCuisine">
+          <Form.Label>Type of Cuisine</Form.Label>
+          <Form.Control as="select" name="typeOfCuisine" value={recipeData.typeOfCuisine} onChange={handleChange}>
+            <option value="">Select Type of Cuisine</option>
+            {typesOfCuisine.map((cuisine) => (
+              <option key={cuisine.id} value={cuisine.id}>{cuisine.name}</option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+        <Form.Group controlId="ingredients" className='mb-3'>
           <Form.Label>Ingredients</Form.Label>
-          
           {recipeData.ingredients.map((ingredient, index) => (
-            <div class='my-4'>
-            <div key={index}>
-              <Form.Control type="text" name="ingredient" className='my-1' placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => handleIngredientChange(index, e)} />
-              <Form.Control type="number" name="quantity" className='my-1' placeholder="Quantity" value={ingredient.quantity} onChange={(e) => handleIngredientChange(index, e)} />
-              <Form.Control as="select" name="unit" className='my-1' value={ingredient.unit} onChange={(e) => handleIngredientChange(index, e)}>
-                <option value="">Select Unit</option>
-              </Form.Control>
-            </div>
+            <div className='my-4' key={index}>
+              <div>
+                <Form.Control type="text" name="ingredient" className='my-1' placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => handleIngredientChange(index, e)} />
+                <Form.Control type="number" name="quantity" className='my-1' placeholder="Quantity" value={ingredient.quantity} onChange={(e) => handleIngredientChange(index, e)} />
+                <Form.Control as="select" name="unit" className='my-1' value={ingredient.unit} onChange={(e) => handleIngredientChange(index, e)}>
+                  <option value="">Select Unit</option>
+                  {units.map((unit) => (
+                    <option key={unit.id} value={unit.id}>{unit.name}</option>
+                  ))}
+                </Form.Control>
+              </div>
             </div>
           ))}
-          
-          <Button variant="secondary" onClick={handleAddIngredient}>Add Ingredient</Button>
+          <Button className='add-ingredient-button' variant="secondary" onClick={handleAddIngredient}>Add Ingredient</Button>
         </Form.Group>
-        <Button variant="primary" type="submit">Submit</Button>
+        <Button className='submit-recipe button mb-3 ml-0' variant="primary" type="submit">Submit</Button>
       </Form>
     </div>
   );

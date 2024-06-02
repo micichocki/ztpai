@@ -1,0 +1,15 @@
+    .add-recipe-header{
+        font-size:1.6rem;
+        margin-top:.5rem;
+    }
+
+
+    .add-recipe-button{
+        width:7rem;
+        height: 2.6rem;
+        line-height: 1.2;
+    }
+
+    .add-ingredient-button{
+        width:10rem;
+    }
