@@ -2,15 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\IngredientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
-#[ApiResource]
 class Ingredient
 {
     #[ORM\Id]
@@ -21,15 +18,19 @@ class Ingredient
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['recipe:read', 'recipe:write'])]
     private string $name;
 
-    #[ORM\OneToMany(targetEntity: Quantity::class, mappedBy: 'ingredient', cascade: ['persist', 'remove'])]
-    private ArrayCollection $quantities;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Groups(['recipe:read', 'recipe:write'])]
+    private float $quantity;
 
-    public function __construct()
-    {
-        $this->quantities = new ArrayCollection();
-    }
+    #[Assert\NotBlank]
+    #[ORM\ManyToOne(targetEntity: Unit::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['recipe:read', 'recipe:write'])]
+    private Unit $unit;
 
     public function getId(): ?int
     {
@@ -48,32 +49,26 @@ class Ingredient
         return $this;
     }
 
-    /**
-     * @return Collection|Quantity[]
-     */
-    public function getQuantities(): Collection
+    public function getQuantity(): ?float
     {
-        return $this->quantities;
+        return $this->quantity;
     }
 
-    public function addQuantity(Quantity $quantity): self
+    public function setQuantity(float $quantity): self
     {
-        if (!$this->quantities->contains($quantity)) {
-            $this->quantities[] = $quantity;
-            $quantity->setIngredient($this);
-        }
+        $this->quantity = $quantity;
 
         return $this;
     }
 
-    public function removeQuantity(Quantity $quantity): self
+    public function getUnit(): ?Unit
     {
-        if ($this->quantities->removeElement($quantity)) {
-            // set the owning side to null (unless already changed)
-            if ($quantity->getIngredient() === $this) {
-                $quantity->setIngredient(null);
-            }
-        }
+        return $this->unit;
+    }
+
+    public function setUnit(Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

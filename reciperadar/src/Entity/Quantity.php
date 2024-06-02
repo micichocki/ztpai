@@ -3,12 +3,19 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\QuantityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuantityRepository::class)]
-#[ApiResource]
+#[ApiResource(    operations: [
+    new Get(),
+    new Post(),
+    new Put()
+],)]
 class Quantity
 {
     #[ORM\Id]

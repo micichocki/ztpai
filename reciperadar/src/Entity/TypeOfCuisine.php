@@ -3,12 +3,26 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\TypeOfCuisineRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TypeOfCuisineRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ],
+    normalizationContext: [
+        'groups' => ['recipe:read']
+    ],
+    denormalizationContext: [
+        'groups' => ['recipe:write']
+    ]
+)]
 class TypeOfCuisine
 {
     #[ORM\Id]
@@ -18,6 +32,7 @@ class TypeOfCuisine
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['recipe:read'])]
     private string $name;
 
     public function getId(): ?int

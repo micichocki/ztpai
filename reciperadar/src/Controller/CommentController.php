@@ -3,53 +3,50 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Repository\RecipeRepository;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class CommentController extends AbstractController
 {
     private RecipeRepository $recipeRepository;
-
-    public function __construct(RecipeRepository $recipeRepository)
+    public function __construct(RecipeRepository $recipeRepository, private ManagerRegistry $doctrine, LoggerInterface $logger)
     {
         $this->recipeRepository = $recipeRepository;
     }
 
     #[Route("/api/recipes/{id}/comments", name: "create_comment", methods: ["POST"])]
-    public function create(int $id, Request $request): Response
+    public function create(int $id, #[CurrentUser] User $user, Request $request): Response
     {
-        var_dump($id);
         $recipe = $this->recipeRepository->findRecipeById($id);
-        var_dump($recipe);
         if (!$recipe) {
             throw $this->createNotFoundException('Recipe not found');
         }
-
-        $content = $request->getContent();
-        $data = json_decode($content, true);
-
-        if (!isset($data['content'])) {
+        $post_data = json_decode($request->getContent(), true);
+        $content = $post_data['content'];
+        if (!isset($content) or $content=='') {
             return $this->json(['error' => 'Comment content is missing'], Response::HTTP_BAD_REQUEST);
         }
-
         $comment = new Comment();
-        $comment->setContent($data['content']);
+        $comment->setContent($content);
         $comment->setRecipe($recipe);
+        $comment->setCreator($user);
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
         $entityManager->persist($comment);
         $entityManager->flush();
-
         return $this->json(['message' => 'Comment created successfully'], Response::HTTP_CREATED);
     }
 
 
-    #[Route("api/recipe/{recipeId}/comment/{commentId}", name: "update_comment", methods: ['PUT'])]
+    #[Route("api/recipes/{recipeId}/comments/{commentId}", name: "update_comment", methods: ['PUT'])]
     public function updateComment(ManagerRegistry $doctrine, Request $request, int $recipeId, int $commentId): JsonResponse
     {
         $recipe = $this->recipeRepository->findRecipeById($recipeId);
@@ -78,7 +75,7 @@ class CommentController extends AbstractController
         return $this->json($comment, JsonResponse::HTTP_OK);
     }
 
-    #[Route("api/recipe/{recipeId}/comment/{commentId}", name: "delete_comment", methods: ['DELETE'])]
+    #[Route("api/recipes/{recipeId}/comments/{commentId}", name: "delete_comment", methods: ['DELETE'])]
     public function deleteComment(ManagerRegistry $doctrine ,int $recipeId, int $commentId): JsonResponse
     {
         $recipe = $this->recipeRepository->findRecipeById($recipeId);

@@ -45,4 +45,19 @@ class TypeOfCuisineRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByName(string $name): ?TypeOfCuisine
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $query = $qb
+            ->andWhere('t.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery();
+
+        $result = $query->getOneOrNullResult();
+
+        return $result;
+    }
+
 }

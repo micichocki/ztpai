@@ -19,15 +19,23 @@ class UserRepository extends ServiceEntityRepository
     /**
      * Find a user by their username.
      *
-     * @param string $username The username to search for
+     * @param string $email The username to search for
      *
      * @return User|null The user entity if found, null otherwise
      */
-    public function findOneByUsername(string $username): ?User
+    public function findOneByEmail(string $email): ?User
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.username = :username')
-            ->setParameter('username', $username)
+            ->andWhere('u.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    public function findOneById(int $id): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
