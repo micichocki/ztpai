@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './assets/styles/LoginForm.css';
 import { useNavigate } from "react-router-dom";
+import kitchenAppliancesImage from './assets/img/Kitchen-appliances-bro.svg';
+
 
 function RegisterForm() {
     const [email, setEmail] = useState('');
@@ -34,11 +36,16 @@ function RegisterForm() {
     };
 
     return (
-        <div className="form-container col-5">
+        <div className="container">
+            
+          <div className="form-container">
+          {error && 
+                  <div className="alert alert-danger mt-1 alert-login" role="alert">
+                    {error}
+                  </div>
+                }
             <div className="form-group">
-                <form onSubmit={handleSubmit} id="register-form">
-                    {error && <div className="error">{error}</div>}
-
+              <form onSubmit={handleSubmit} id="main-form">
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -58,25 +65,32 @@ function RegisterForm() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-
-                    <label htmlFor="confirmPassword">Confirm Password</label>
+                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"
+
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
+                        onChange={(e) => setConfirmPassword(e.target.value)}                
                     />
 
-                    <div className="submit-button-container">
-                        <button type="submit" className="btn btn-success">Register</button>
-                    </div>
-                </form>
+<div className="submit-button-container">
+                  <button type="submit" className="btn btn-success">Sign In</button>
+                </div>
+              </form>
             </div>
-            <div className='messages2'>
-                Already have an account? Click <a className='ml-1 click-here' href="/">here</a>
+            <div className="messages2">
+              You already have an account? Click <a className="ml-1 click-here" href="/">here</a>
             </div>
+          </div>
+          <div className="image-text-container">
+            <img src={kitchenAppliancesImage} alt="Kitchen appliances image" />
+            <p className='jomh big-font'>Welcome to our culinary recipe
+                                                    app!        </p>
+            <p className='jomh'>Step into the world of culinary adventures to begin your journey towards better tasting!
+</p>
+          </div>
         </div>
     );
 }

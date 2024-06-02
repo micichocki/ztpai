@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './assets/styles/Navbar.css';
+import useAuth from './useAuth';
 
 function Navbar({ isAuthenticated }) {
   const userId = localStorage.getItem("userId");
@@ -36,7 +37,7 @@ function Navbar({ isAuthenticated }) {
           <li className="nav-item">
             <a className="nav-link nav-text" href="https://github.com/micichocki">Contact</a>
           </li>
-          {isNavCollapsed && name && (
+          {isNavCollapsed && name && isAuthenticated && (
             <li className="ml-2 nav-item">
               <span className="nav-link nav-text welcome-indicator">
                 Hi, <span className="color-span">{name}</span>

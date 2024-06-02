@@ -9,6 +9,12 @@ function Logout({ setIsAuthenticated }) {
     const handleLogout = async () => {
       try {      
         localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_role');
+        localStorage.removeItem('followed_recipes');
+        localStorage.removeItem('uc_id');
+        localStorage.removeItem('name');
+        localStorage.removeItem('surname');
         setIsAuthenticated(false);
 
         navigate('/');
