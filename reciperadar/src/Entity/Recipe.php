@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Controller\RecipeController;
 use App\Entity\Ingredient;
 use App\Repository\RecipeRepository;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(),
+        new Put(),
     ],
     normalizationContext: [
         'groups' => ['recipe:read']
@@ -55,6 +57,15 @@ use Symfony\Component\Validator\Constraints as Assert;
         )
     ],
     controller: RecipeController::class
+)]
+#[ApiResource(
+    uriTemplate: 'recipes/{recipe_id}/',
+    operations: [new Put()],
+    uriVariables: [
+        'recipe_id' => new Link(
+            fromClass: Recipe::class
+        )
+    ],
 )]
 #[ApiResource(
     uriTemplate: 'api/users/{user_id}/recipes/{recipe_id}',

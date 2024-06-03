@@ -252,7 +252,11 @@ function RecipeDetail({ isAuthenticated }) {
                 <div className="mt-4">
                     {(isCreator || isAdmin) && (
                         <>
-                            {/* <Button className='action-btn' variant="primary">Edit Recipe</Button> */}
+                                <Link to={`/edit-recipe/${recipe.id}`}>
+                                <Button className='action-btn margin-l3' variant="primary">
+                                  Edit Recipe
+                                </Button>
+                              </Link>
                             <Button className='action-btn margin-l3' variant="danger" onClick={handleDeleteRecipe}>Delete Recipe</Button>
                         </>
                     )}

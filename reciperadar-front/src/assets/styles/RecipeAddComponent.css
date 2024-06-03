@@ -3,6 +3,13 @@
         margin-top:.5rem;
     }
 
+    .delete-recipe-ingredient-button{
+        width: 2.3rem;
+        height: 2rem;
+        margin-left:1rem;   
+        line-height: 0.3rem;     
+    }
+
 
     .add-recipe-button{
         width:7rem;
